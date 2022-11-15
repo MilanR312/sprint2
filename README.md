@@ -1,2 +1,2 @@
 # sprint2
-A Rubik's Cube
+It's a Rubik's Cube
