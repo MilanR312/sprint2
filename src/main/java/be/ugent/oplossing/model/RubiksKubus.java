@@ -64,26 +64,24 @@ public class RubiksKubus implements IRubikCube{
         }
         return list;
     }
-
     @Override
     public List<IFace> getRotation(Color color, int degree) {
         // bepaal rond welke as er moet gedraaid worden
         if(color.equals(Color.WHITE)) {
-            var witteKubes = kubusjes.stream().filter(e -> e.getCentrum().getZ() == 2).toList();
-            var nietWitteKubes = kubusjes.stream().filter(e->e.getCentrum().getZ() != 2).collect(Collectors.toList());
+            //var witteKubes = kubusjes.stream().filter(e -> e.getCentrum().getZ() == 2).toList();
 
-            var temp = witteKubes.stream().map(e -> e.copyAndRotate(degree, "x")).toList();
+            var temp = kubusjes.stream()
+                    .filter(e->e.getCentrumHoekPunt().getAxis("z") != 2)
+                    .flatMap(e -> (e.copyAndRotate(degree, "x")).stream())
+                    .toList();
 
-            List<IFace> list = new ArrayList<>();
-            for(var vlakjes : temp){
-                for(var vlak : vlakjes){
-                    list.add(vlak);
-                }
-            }
-            var temp2 = nietWitteKubes.stream()
-                    .flatMap(e-> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
-            list.addAll(temp2);
-            return  list;
+            var temp2 = kubusjes.stream()
+                    .filter(e-> e.getCentrumHoekPunt().getAxis("z") == 2)
+                    .flatMap(e-> Arrays.stream(e.getVlakjes()))
+                    .toList();
+
+            temp.addAll(temp2);
+            return  temp;
         }
 
         return null;

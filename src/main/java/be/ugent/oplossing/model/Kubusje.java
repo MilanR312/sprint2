@@ -141,5 +141,6 @@ public class Kubusje {
 
     public Point3D getCentrum() {return centrum.getLocation();}
 
+    public Hoekpunt getCentrumHoekPunt(){return centrum;}
 
 }

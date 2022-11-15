@@ -81,5 +81,17 @@ public class Hoekpunt {
         return new Hoekpunt(result[0][0], result[1][0],result[2][0]);
     }
 
+    public double getAxis(String s){
+        switch (s){
+            case "x":
+                return this.getX();
+            case "y":
+                return this.getY();
+            case "z":
+                return this.getZ();
+        }
+        return 0.0;
+    }
+
 
 }
