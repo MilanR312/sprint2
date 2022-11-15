@@ -2,6 +2,10 @@ package be.ugent.oplossing.model;
 
 import javafx.geometry.Point3D;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 //       ^ Y
 //       |
 //       |
@@ -128,6 +132,11 @@ public class Kubusje {
     public Vlakje[] getVlakjes(){
         return vlakjes;
     }
+
+    public List<IFace> copyAndRotate(double degrees, String axis) {
+        return Arrays.stream(vlakjes).map(e->e.copyAndRotate(degrees, axis)).toList();
+    }
+
 
 
     public Point3D getCentrum() {return centrum.getLocation();}

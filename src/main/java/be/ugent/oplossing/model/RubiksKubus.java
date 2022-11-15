@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class RubiksKubus implements IRubikCube{
 
@@ -66,8 +67,26 @@ public class RubiksKubus implements IRubikCube{
 
     @Override
     public List<IFace> getRotation(Color color, int degree) {
-        System.out.println("RubiksKubus::getRotation nog niet geimplementeerd");
-        return null; // vervang
+        // bepaal rond welke as er moet gedraaid worden
+        if(color.equals(Color.WHITE)) {
+            var witteKubes = kubusjes.stream().filter(e -> e.getCentrum().getZ() == 2).toList();
+            var nietWitteKubes = kubusjes.stream().filter(e->e.getCentrum().getZ() != 2).collect(Collectors.toList());
+
+            var temp = witteKubes.stream().map(e -> e.copyAndRotate(degree, "x")).toList();
+
+            List<IFace> list = new ArrayList<>();
+            for(var vlakjes : temp){
+                for(var vlak : vlakjes){
+                    list.add(vlak);
+                }
+            }
+            var temp2 = nietWitteKubes.stream()
+                    .flatMap(e-> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
+            list.addAll(temp2);
+            return  list;
+        }
+
+        return null;
     }
 
     @Override

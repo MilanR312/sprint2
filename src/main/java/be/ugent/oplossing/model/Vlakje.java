@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.util.Map.entry;
 
@@ -70,6 +71,15 @@ public class Vlakje implements IFace {
             ptn[i] = hoekpunten.get(i).getLocation();
         }
         return ptn;
+    }
+
+
+
+
+    public IFace copyAndRotate(double degree, String axis) {
+        Vlakje v = new Vlakje(this.kleur);
+        v.hoekpunten = hoekpunten.stream().map(e->e.copyAndRotate(degree, axis)).toList();
+        return v;
     }
 
 }
