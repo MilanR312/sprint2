@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RubiksKubus implements IRubikCube{
 
@@ -66,25 +66,16 @@ public class RubiksKubus implements IRubikCube{
     }
     @Override
     public List<IFace> getRotation(Color color, int degree) {
-        // bepaal rond welke as er moet gedraaid worden
-        if(color.equals(Color.WHITE)) {
-            //var witteKubes = kubusjes.stream().filter(e -> e.getCentrum().getZ() == 2).toList();
+        AxisColor axisColor = AxisColor.getAxisColorFromColor(color);
+            var rotatedFaces = kubusjes.stream()
+                    .filter(e->e.getCentrumHoekPunt().getAxis(axisColor.axis) == axisColor.number)
+                    .flatMap(e -> (e.copyAndRotate(degree, axisColor.axis)).stream());
 
-            var temp = kubusjes.stream()
-                    .filter(e->e.getCentrumHoekPunt().getAxis("z") != 2)
-                    .flatMap(e -> (e.copyAndRotate(degree, "x")).stream())
-                    .toList();
+            var unrotatedFaces = kubusjes.stream()
+                    .filter(e -> e.getCentrumHoekPunt().getAxis(axisColor.axis) != axisColor.number)
+                    .flatMap(e -> Arrays.stream(e.getVlakjes()));
 
-            var temp2 = kubusjes.stream()
-                    .filter(e-> e.getCentrumHoekPunt().getAxis("z") == 2)
-                    .flatMap(e-> Arrays.stream(e.getVlakjes()))
-                    .toList();
-
-            temp.addAll(temp2);
-            return  temp;
-        }
-
-        return null;
+            return Stream.concat(rotatedFaces, unrotatedFaces).toList();
     }
 
     @Override
