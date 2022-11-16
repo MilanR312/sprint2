@@ -2,7 +2,9 @@ package be.ugent.oplossing.model;
 
 import javafx.geometry.Point3D;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class Hoekpunt {
     Point3D loc; // 'loc' van locatie
@@ -72,12 +74,32 @@ public class Hoekpunt {
         return cell;
     }
 
+
     Hoekpunt copyAndRotate(double degrees, String axis) {
         var rad = Math.toRadians(degrees);
-        double[][] ZAxisRotation = {{Math.cos(rad), -Math.sin(rad), 0},{Math.sin(rad), Math.cos(rad), 0},{0,0,1}};
+        double[][] AxisRotation;
+        //if block voor te testen mschn in een matrix class met alle operaties?
+        //default rond x
+        AxisRotation = new double[][]{
+            {1, 0, 0}
+            ,{0, Math.cos(rad), -Math.sin(rad)}
+            ,{0, Math.sin(rad), Math.cos(rad)}
+        };
+        if (axis.equals("y")){
+            AxisRotation = new double[][]{
+                {Math.cos(rad), 0, Math.sin(rad)}
+               ,{0            , 1, 0}
+               ,{-Math.sin(rad), 0, Math.cos(rad)}
+            };
+        } else if (axis.equals("z")){
+            AxisRotation = new double[][] {
+                {Math.cos(rad), -Math.sin(rad), 0}
+               ,{Math.sin(rad),  Math.cos(rad), 0}
+               ,{0,             0,              1}};
+        }
         double[][] hoekpunt = {{this.getX()},{this.getY(),},{this.getZ()}};
 
-        double [][] result = multiplyMatrices(ZAxisRotation, hoekpunt);
+        double [][] result = multiplyMatrices(AxisRotation, hoekpunt);
         return new Hoekpunt(result[0][0], result[1][0],result[2][0]);
     }
 

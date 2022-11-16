@@ -5,12 +5,12 @@ import javafx.scene.paint.Color;
 import java.util.Map;
 
 public enum AxisColor {
-  wit(Color.WHITE, "X", 2 ),
-    geel(Color.WHITE, "X", 2 ),
-    rood(Color.WHITE, "X", 2 ),
-    blauw(Color.WHITE, "X", 2 ),
-    oranje(Color.WHITE, "X", 2 ),
-    groen(Color.GREEN, "X", 2);
+  wit(Color.WHITE, "y", -2 ),
+    geel(Color.WHITE, "y", 2 ),
+    rood(Color.WHITE, "x", 2 ),
+    blauw(Color.WHITE, "z", -2 ),
+    oranje(Color.WHITE, "x", -2 ),
+    groen(Color.GREEN, "z", 2);
 
   Color color;
   String axis;
