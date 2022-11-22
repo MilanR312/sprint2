@@ -5,14 +5,13 @@ import javafx.scene.paint.Color;
 import java.util.Map;
 
 public enum AxisColor {
-  wit(Color.WHITE, "y", -2 ),
-    geel(Color.WHITE, "y", 2 ),
-    rood(Color.WHITE, "x", 2 ),
-    blauw(Color.WHITE, "z", -2 ),
-    oranje(Color.WHITE, "x", -2 ),
-    groen(Color.GREEN, "z", 2);
+    wit("y", -2 ),
+    geel("y", 2 ),
+    rood("x", 2 ),
+    blauw("z", -2 ),
+    oranje("x", -2 ),
+    groen("z", 2);
 
-  Color color;
   String axis;
   int number;
   static Map<Color, AxisColor> map = Map.of(
@@ -24,8 +23,7 @@ public enum AxisColor {
           Color.ORANGE, oranje
   );
 
-    AxisColor(Color color, String axis, int number) {
-        this.color = color;
+    AxisColor(String axis, int number) {
         this.axis = axis;
         this.number = number;
     }

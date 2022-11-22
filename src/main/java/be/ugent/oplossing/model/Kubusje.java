@@ -137,7 +137,10 @@ public class Kubusje {
         return Arrays.stream(vlakjes).map(e->e.copyAndRotate(degrees, axis)).toList();
     }
 
-
+    public void rotate(double degrees, String axis) {
+        this.centrum.rotate(degrees, axis);
+        Arrays.stream(vlakjes).forEach(e->e.rotate(degrees, axis));
+    }
 
     public Point3D getCentrum() {return centrum.getLocation();}
 

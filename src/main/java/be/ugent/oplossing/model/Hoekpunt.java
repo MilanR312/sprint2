@@ -74,48 +74,20 @@ public class Hoekpunt {
         return cell;
     }
 
-
-    Hoekpunt copyAndRotate(double degrees, String axis) {
+    public Hoekpunt copyAndRotate(double degrees, String axis) {
         var rad = Math.toRadians(degrees);
-
         Matrix AxisRotation = new Matrix(axis, rad);
         Matrix hoekpunt = new Matrix(new Double[][]{{this.getX()},{this.getY(),},{this.getZ()}});
         Matrix result = AxisRotation.multiply(hoekpunt);
-
-        for (var ell: result){
-            for(var subEll: ell){
-                System.out.print(subEll + " ");
-            }
-            System.out.println();
-
-        }
         return new Hoekpunt(result.matrix[0][0], result.matrix[1][0],result.matrix[2][0]);
-        
-        /*double[][] AxisRotation;
-        //if block voor te testen mschn in een matrix class met alle operaties?
-        //default rond x
-        AxisRotation = new double[][]{
-            {1, 0, 0}
-            ,{0, Math.cos(rad), -Math.sin(rad)}
-            ,{0, Math.sin(rad), Math.cos(rad)}
-        };
-        if (axis.equals("y")){
-            AxisRotation = new double[][]{
-                {Math.cos(rad), 0, Math.sin(rad)}
-               ,{0            , 1, 0}
-               ,{-Math.sin(rad), 0, Math.cos(rad)}
-            };
-        } else if (axis.equals("z")){
-            AxisRotation = new double[][] {
-                {Math.cos(rad), -Math.sin(rad), 0}
-               ,{Math.sin(rad),  Math.cos(rad), 0}
-               ,{0,             0,              1}};
-        }
-        double[][] hoekpunt = {{this.getX()},{this.getY(),},{this.getZ()}};
+    }
 
-        double [][] result = multiplyMatrices(AxisRotation, hoekpunt);
-        System.out.println(result[0][0] + "" + result[1][0] + "" + result[2][0]);
-        return new Hoekpunt(result[0][0], result[1][0],result[2][0]);*/
+    public void rotate(double degrees, String axis) {
+        var rad = Math.toRadians(degrees);
+        Matrix AxisRotation = new Matrix(axis, rad);
+        Matrix hoekpunt = new Matrix(new Double[][]{{this.getX()},{this.getY(),},{this.getZ()}});
+        Matrix result = AxisRotation.multiply(hoekpunt);
+        setLocation(new Point3D(result.matrix[0][0], result.matrix[1][0],result.matrix[2][0]));
     }
 
     public double getAxis(String s){

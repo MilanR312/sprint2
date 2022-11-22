@@ -73,13 +73,14 @@ public class Vlakje implements IFace {
         return ptn;
     }
 
-
-
-
-    public IFace copyAndRotate(double degree, String axis) {
+    public IFace copyAndRotate(double degrees, String axis) {
         Vlakje v = new Vlakje(this.kleur);
-        v.hoekpunten = hoekpunten.stream().map(e->e.copyAndRotate(degree, axis)).toList();
+        v.hoekpunten = hoekpunten.stream().map(e->e.copyAndRotate(degrees, axis)).toList();
         return v;
+    }
+
+    public void rotate(double degrees, String axis) {
+        hoekpunten.forEach(e->e.rotate(degrees, axis));
     }
 
 }

@@ -58,13 +58,7 @@ public class RubiksKubus implements IRubikCube{
     // dus geen onderscheid tussen zichtbare en onzichtbare vlakjes).
     @Override
     public List<IFace> getAllFaces() {
-        List<IFace> list = new ArrayList<>();
-        for(Kubusje kubus : kubusjes){
-            for(Vlakje vlak : kubus.getVlakjes()){
-                list.add(vlak);
-            }
-        }
-        return list;
+        return kubusjes.stream().flatMap(e-> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
     }
     @Override
     public List<IFace> getRotation(Color color, int degree) {
@@ -78,13 +72,19 @@ public class RubiksKubus implements IRubikCube{
                 .filter(e -> e.getCentrumHoekPunt().getAxis(axisColor.axis) != axisColor.number)
                 .flatMap(e -> Arrays.stream(e.getVlakjes()));
 
-        return Stream.concat(rotatedFaces, unrotatedFaces).toList();
+        var rotatedFaces2 = rotatedFaces.collect(Collectors.toList());
+        var unrotatedFaces2 = unrotatedFaces.collect(Collectors.toList());
+
+//        return Stream.concat(rotatedFaces, unrotatedFaces).toList();
+        return kubusjes.stream().flatMap(e-> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
     }
 
     @Override
     public void rotate(Color color, boolean clockwise) {
-        System.out.println("RubiksKubus::rotate nog niet geimplementeerd");
-        // vervang
+        AxisColor axisColor = AxisColor.getAxisColorFromColor(color);
+        kubusjes.stream()
+                .filter(e->Math.round(e.getCentrumHoekPunt().getAxis(axisColor.axis) - axisColor.number) == 0)
+                .forEach(e -> e.rotate(90*((clockwise?1:0) *2 -1), axisColor.axis));
     }
 
     public List<Kubusje> getKubusjes(){
