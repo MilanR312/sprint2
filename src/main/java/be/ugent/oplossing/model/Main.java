@@ -22,7 +22,7 @@ public class Main {
             for (int i = 1; i <= 4; i++) {
                 System.out.println("\n**********\n************\nNA " + i + "x 30° ROTEREN VAN ROOD CLOCKWISE");
                 List<IFace> list = rubik.getRotation(Color.RED, 30);
-                for(int k=0; k<5; k++){
+                for (int k = 0; k < 5; k++) {
                     System.out.println(list.get(k));
                 }
                 System.out.println("\n**********\n************\nNA " + i + "x ROTEREN VAN ROOD CLOCKWISE");

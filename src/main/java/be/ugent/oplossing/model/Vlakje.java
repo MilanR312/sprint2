@@ -16,7 +16,7 @@ public class Vlakje implements IFace {
     private List<Hoekpunt> hoekpunten;
 
     // enkel nodig in toString()-methode
-    private Map<Color,String> kleurenNamen = new HashMap<Color,String>(Map.ofEntries(
+    private final Map<Color, String> kleurenNamen = new HashMap<Color, String>(Map.ofEntries(
             entry(Color.RED, "rood"),
             entry(Color.GREEN, "groen"),
             entry(Color.YELLOW, "geel"),
@@ -28,11 +28,12 @@ public class Vlakje implements IFace {
 
     // De constructor krijgt alleen de kleur mee.
     // Om hoekpunten toe te voegen, schrijf je een methode.
-    public Vlakje(String kleur){
+    public Vlakje(String kleur) {
         this.kleur = Kleur.getKleur(kleur);
         this.hoekpunten = new ArrayList<>();
     }
-    public Vlakje(Color kleur){
+
+    public Vlakje(Color kleur) {
         this.kleur = kleur;
         this.hoekpunten = new ArrayList<>();
     }
@@ -44,20 +45,19 @@ public class Vlakje implements IFace {
     // Wees hier dus pragmatisch in: ga niet zitten rekenen of controleren;
     // als je bij constructie van de kubus gestructureerd te werk gaat,
     // is het al in orde.
-    public void voegPuntToe(Hoekpunt p){
+    public void voegPuntToe(Hoekpunt p) {
         hoekpunten.add(p);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder builder = new StringBuilder("");
         builder.append(kleurenNamen.get(kleur));
-        for(Hoekpunt p : hoekpunten){
-            builder.append("\t"+p);
+        for (Hoekpunt p : hoekpunten) {
+            builder.append("\t").append(p);
         }
         return builder.toString();
     }
-
 
     @Override
     public Color getFaceColor() {
@@ -67,7 +67,7 @@ public class Vlakje implements IFace {
     @Override
     public Point3D[] getFaceCorners() {
         Point3D[] ptn = new Point3D[hoekpunten.size()];
-        for(int i = 0; i<ptn.length; i++){
+        for (int i = 0; i < ptn.length; i++) {
             ptn[i] = hoekpunten.get(i).getLocation();
         }
         return ptn;
@@ -75,12 +75,12 @@ public class Vlakje implements IFace {
 
     public IFace copyAndRotate(double degrees, String axis) {
         Vlakje v = new Vlakje(this.kleur);
-        v.hoekpunten = hoekpunten.stream().map(e->e.copyAndRotate(degrees, axis)).toList();
+        v.hoekpunten = hoekpunten.stream().map(e -> e.copyAndRotate(degrees, axis)).toList();
         return v;
     }
 
     public void rotate(double degrees, String axis) {
-        hoekpunten.forEach(e->e.rotate(degrees, axis));
+        hoekpunten.forEach(e -> e.rotate(degrees, axis));
     }
 
 }

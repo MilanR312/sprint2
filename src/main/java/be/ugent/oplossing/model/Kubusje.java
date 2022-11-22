@@ -75,10 +75,9 @@ public class Kubusje {
     }
 
 
-
     private void initialiseerPuntenEnVlakken(String[] kleuren) {
         // maak eerst 6 vlakken aan, met de juiste kleuren
-        for(int i=0; i<kleuren.length; i++){
+        for (int i = 0; i < kleuren.length; i++) {
             vlakjes[i] = new Vlakje(kleuren[i]);
         }
 
@@ -90,24 +89,21 @@ public class Kubusje {
         // (en doe dat dan ook)
         // (Met wat wiskunde en een extra klasse VergelijkingVanVlak kan het ook
         // zonder if/else-structuur, maar neem niet teveel hooi ineens op je vork.)
-        for(int i=0; i<ptnTovCentrum.length; i++){
+        for (int i = 0; i < ptnTovCentrum.length; i++) {
             hoekpunten[i] = centrum.plus(ptnTovCentrum[i]);
-            if(ptnTovCentrum[i].getX() == 1){
+            if (ptnTovCentrum[i].getX() == 1) {
                 vlakjes[XPOS].voegPuntToe(hoekpunten[i]);
-            }
-            else {
+            } else {
                 vlakjes[XNEG].voegPuntToe(hoekpunten[i]);
             }
-            if(ptnTovCentrum[i].getY()==1){
+            if (ptnTovCentrum[i].getY() == 1) {
                 vlakjes[YPOS].voegPuntToe(hoekpunten[i]);
-            }
-            else{
+            } else {
                 vlakjes[YNEG].voegPuntToe(hoekpunten[i]);
             }
-            if(ptnTovCentrum[i].getZ()==1){
+            if (ptnTovCentrum[i].getZ() == 1) {
                 vlakjes[ZPOS].voegPuntToe(hoekpunten[i]);
-            }
-            else{
+            } else {
                 vlakjes[ZNEG].voegPuntToe(hoekpunten[i]);
             }
         }
@@ -120,30 +116,29 @@ public class Kubusje {
     //    (2) coordinaten van het centrum
     //    (3) alle zijvlakjes (waarbij een zijvlakje zelf weet hoe 't zich omzet in een String)
     public String toString() {
-
         StringBuilder builder = new StringBuilder("Kubusje:\n");
         builder.append(centrum.toString());
-        for(Vlakje vlak : vlakjes){
-            builder.append("\n\t"+vlak);
+        for (Vlakje vlak : vlakjes) {
+            builder.append("\n\t").append(vlak);
         }
         return builder.toString();
     }
 
-    public Vlakje[] getVlakjes(){
+    public Vlakje[] getVlakjes() {
         return vlakjes;
     }
 
     public List<IFace> copyAndRotate(double degrees, String axis) {
-        return Arrays.stream(vlakjes).map(e->e.copyAndRotate(degrees, axis)).toList();
+        return Arrays.stream(vlakjes).map(e -> e.copyAndRotate(degrees, axis)).toList();
     }
 
     public void rotate(double degrees, String axis) {
-        this.centrum.rotate(-degrees, axis);
-        Arrays.stream(vlakjes).forEach(e->e.rotate(degrees, axis));
+        this.centrum.rotate(degrees, axis);
+        Arrays.stream(vlakjes).forEach(e -> e.rotate(-degrees, axis));
     }
 
-    public Point3D getCentrum() {return centrum.getLocation();}
-
-    public Hoekpunt getCentrumHoekPunt(){return centrum;}
+    public Hoekpunt getCentrumHoekPunt() {
+        return centrum;
+    }
 
 }

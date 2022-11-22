@@ -6,11 +6,10 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class RubiksKubus implements IRubikCube{
+public class RubiksKubus implements IRubikCube {
 
     private List<Kubusje> kubusjes;
 
@@ -23,17 +22,17 @@ public class RubiksKubus implements IRubikCube{
         kubusjes = new ArrayList<>();
 
         Scanner sc = new Scanner(new File(Objects.requireNonNull(RubiksReader.class.getResource("kubussen_xyz.csv")).getFile()));
-        while(sc.hasNext()){
+        while (sc.hasNext()) {
             Scanner sc_ = new Scanner(sc.nextLine());
             sc_.useDelimiter(";");
             int x = sc_.nextInt();
             int y = sc_.nextInt();
             int z = sc_.nextInt();
             String[] kleuren = new String[6];
-            for(int i=0; i<6; i++){
+            for (int i = 0; i < 6; i++) {
                 kleuren[i] = sc_.next();
             }
-            kubusjes.add(new Kubusje(x,y,z,kleuren));
+            kubusjes.add(new Kubusje(x, y, z, kleuren));
         }
 
     }
@@ -41,16 +40,15 @@ public class RubiksKubus implements IRubikCube{
 
     // Dit kan je gebruiken om zelf te testen, zolang de view er nog niet is.
     // Layout niet handig? Pas zelf aan.
-    public String toString(){
+    public String toString() {
         // kan je later met streams doen
         String[] strings = new String[kubusjes.size()];
-        int i=0;
-        for(Kubusje kubus : kubusjes){
+        int i = 0;
+        for (Kubusje kubus : kubusjes) {
             strings[i++] = kubus.toString();
         }
-        return String.join("\n",strings);
+        return String.join("\n", strings);
     }
-
 
 
     // Deze methode wordt gebruikt door het showteam om de View te maken.
@@ -58,36 +56,36 @@ public class RubiksKubus implements IRubikCube{
     // dus geen onderscheid tussen zichtbare en onzichtbare vlakjes).
     @Override
     public List<IFace> getAllFaces() {
-        return kubusjes.stream().flatMap(e-> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
+        return kubusjes.stream().flatMap(e -> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
     }
+
     @Override
     public List<IFace> getRotation(Color color, int degree) {
-        // bepaal rond welke as er moet gedraaid worden
         AxisColor axisColor = AxisColor.getAxisColorFromColor(color);
+        double angle = degree * Math.signum(axisColor.number);
+//        System.out.println(angle);
         var rotatedFaces = kubusjes.stream()
-                .filter(e->e.getCentrumHoekPunt().getAxis(axisColor.axis) == axisColor.number)
-                .flatMap(e -> (e.copyAndRotate(degree * Math.signum(axisColor.number), axisColor.axis)).stream());
+                .filter(e -> e.getCentrumHoekPunt().getAxis(axisColor.axis) == axisColor.number)
+                .flatMap(e -> e.copyAndRotate(angle, axisColor.axis).stream());
 
-        var unrotatedFaces = kubusjes.stream()
+        var unRotatedFaces = kubusjes.stream()
                 .filter(e -> e.getCentrumHoekPunt().getAxis(axisColor.axis) != axisColor.number)
                 .flatMap(e -> Arrays.stream(e.getVlakjes()));
 
-        //var rotatedFaces2 = rotatedFaces.collect(Collectors.toList());
-        //var unrotatedFaces2 = unrotatedFaces.collect(Collectors.toList());
-
-        return Stream.concat(rotatedFaces, unrotatedFaces).toList();
-       // return kubusjes.stream().flatMap(e-> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
+        return Stream.concat(rotatedFaces, unRotatedFaces).toList();
     }
 
     @Override
     public void rotate(Color color, boolean clockwise) {
         AxisColor axisColor = AxisColor.getAxisColorFromColor(color);
+        double angle = ((clockwise ? 0 : 1) * 2 - 1) * 90 * Math.signum(axisColor.number);
+//        System.out.println("Save: " + angle);
         kubusjes.stream()
-                .filter(e->e.getCentrumHoekPunt().getAxis(axisColor.axis) == axisColor.number)
-                .forEach(e -> e.rotate(((clockwise ? 1 : 0) * 2 - 1) * 90 * Math.signum(axisColor.number), axisColor.axis));
+                .filter(e -> e.getCentrumHoekPunt().getAxis(axisColor.axis) == axisColor.number)
+                .forEach(e -> e.rotate(angle, axisColor.axis));
     }
 
-    public List<Kubusje> getKubusjes(){
+    public List<Kubusje> getKubusjes() {
         return kubusjes;
     }
 
