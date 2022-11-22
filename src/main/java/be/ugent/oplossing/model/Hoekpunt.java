@@ -87,7 +87,7 @@ public class Hoekpunt {
         Matrix AxisRotation = new Matrix(axis, rad);
         Matrix hoekpunt = new Matrix(new Double[][]{{this.getX()},{this.getY(),},{this.getZ()}});
         Matrix result = AxisRotation.multiply(hoekpunt);
-        setLocation(new Point3D(result.matrix[0][0], result.matrix[1][0],result.matrix[2][0]));
+        setLocation(new Point3D(Math.round(result.matrix[0][0]), Math.round(result.matrix[1][0]),Math.round(result.matrix[2][0])));
     }
 
     public double getAxis(String s){

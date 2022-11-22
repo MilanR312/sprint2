@@ -138,7 +138,7 @@ public class Kubusje {
     }
 
     public void rotate(double degrees, String axis) {
-        this.centrum.rotate(degrees, axis);
+        this.centrum.rotate(-degrees, axis);
         Arrays.stream(vlakjes).forEach(e->e.rotate(degrees, axis));
     }
 

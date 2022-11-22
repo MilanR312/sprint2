@@ -72,19 +72,19 @@ public class RubiksKubus implements IRubikCube{
                 .filter(e -> e.getCentrumHoekPunt().getAxis(axisColor.axis) != axisColor.number)
                 .flatMap(e -> Arrays.stream(e.getVlakjes()));
 
-        var rotatedFaces2 = rotatedFaces.collect(Collectors.toList());
-        var unrotatedFaces2 = unrotatedFaces.collect(Collectors.toList());
+        //var rotatedFaces2 = rotatedFaces.collect(Collectors.toList());
+        //var unrotatedFaces2 = unrotatedFaces.collect(Collectors.toList());
 
-//        return Stream.concat(rotatedFaces, unrotatedFaces).toList();
-        return kubusjes.stream().flatMap(e-> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
+        return Stream.concat(rotatedFaces, unrotatedFaces).toList();
+       // return kubusjes.stream().flatMap(e-> Arrays.stream(e.getVlakjes())).collect(Collectors.toList());
     }
 
     @Override
     public void rotate(Color color, boolean clockwise) {
         AxisColor axisColor = AxisColor.getAxisColorFromColor(color);
         kubusjes.stream()
-                .filter(e->Math.round(e.getCentrumHoekPunt().getAxis(axisColor.axis) - axisColor.number) == 0)
-                .forEach(e -> e.rotate(90*((clockwise?1:0) *2 -1), axisColor.axis));
+                .filter(e->e.getCentrumHoekPunt().getAxis(axisColor.axis) == axisColor.number)
+                .forEach(e -> e.rotate(((clockwise ? 1 : 0) * 2 - 1) * 90 * Math.signum(axisColor.number), axisColor.axis));
     }
 
     public List<Kubusje> getKubusjes(){
