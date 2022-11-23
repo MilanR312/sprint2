@@ -4,7 +4,6 @@ import be.ugent.oplossing.model.IFace;
 import be.ugent.oplossing.model.IRubikCube;
 import be.ugent.oplossing.model.RubiksKubus;
 import be.ugent.oplossing.show.FaceView;
-import be.ugent.oplossing.show.RubiksReader;
 import be.ugent.oplossing.show.Shape3DRectangle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

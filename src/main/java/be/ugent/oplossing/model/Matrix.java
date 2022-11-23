@@ -1,11 +1,10 @@
 package be.ugent.oplossing.model;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Function;
-import java.lang.Iterable;
 
+
+//class used for matrix multiplication
 public class Matrix {
     double[][] matrix;
     int width;

@@ -63,7 +63,6 @@ public class RubiksKubus implements IRubikCube {
     public List<IFace> getRotation(Color color, int degree) {
         AxisColor axisColor = AxisColor.getAxisColorFromColor(color);
         double angle = degree * Math.signum(axisColor.number);
-//        System.out.println(angle);
         var rotatedFaces = kubusjes.stream()
                 .filter(e -> e.getCentrumHoekPunt().getAxis(axisColor.axis) == axisColor.number)
                 .flatMap(e -> e.copyAndRotate(angle, axisColor.axis).stream());
@@ -79,7 +78,6 @@ public class RubiksKubus implements IRubikCube {
     public void rotate(Color color, boolean clockwise) {
         AxisColor axisColor = AxisColor.getAxisColorFromColor(color);
         double angle = ((clockwise ? 0 : 1) * 2 - 1) * 90 * Math.signum(axisColor.number);
-//        System.out.println("Save: " + angle);
         kubusjes.stream()
                 .filter(e -> e.getCentrumHoekPunt().getAxis(axisColor.axis) == axisColor.number)
                 .forEach(e -> e.rotate(angle, axisColor.axis));

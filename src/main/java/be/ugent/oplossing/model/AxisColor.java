@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 
 import java.util.Map;
 
+
+//enum used to identify the axis to rotate around
 public enum AxisColor {
     wit("y", -2),
     geel("y", 2),

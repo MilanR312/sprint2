@@ -2,9 +2,7 @@ package be.ugent.oplossing.model;
 
 import javafx.geometry.Point3D;
 
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 public class Hoekpunt {
     Point3D loc; // 'loc' van locatie
@@ -56,6 +54,7 @@ public class Hoekpunt {
         Locale.setDefault(new Locale("en", "GB"));
         return String.format("(%.2f,%.2f,%.2f)", loc.getX(), loc.getY(), loc.getZ());
     }
+
 
     private double[][] calculateRotation(double degrees, String axis) {
         var rad = Math.toRadians(degrees);
