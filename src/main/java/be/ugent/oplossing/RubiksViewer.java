@@ -33,6 +33,9 @@ import javafx.util.Duration;
 import java.io.FileNotFoundException;
 import java.util.List;
 
+import javafx.util.Pair;
+import be.ugent.oplossing.model.SizedStack;
+
 // drag the mouse over the rectangle to rotate it.
 public class RubiksViewer extends Application {
     private static final Font TITLE_FONT = Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 40);
@@ -46,6 +49,8 @@ public class RubiksViewer extends Application {
     private double anchorX, anchorY;
     private final Group meshGroup = new Group();
     private IRubikCube rubikCube;
+
+    private SizedStack<Pair<String, Boolean>> history = new SizedStack<>(10);
 
     public static void main(String[] args) {
         launch(args);
@@ -101,20 +106,37 @@ public class RubiksViewer extends Application {
             grid.add(new Label(colorStr), 1, row);
             // Rotate ClockWise
             Button rotateCW = new Button("\u2B6E");
-            rotateCW.setOnAction(e -> rotate(colorStr, true));
+            rotateCW.setOnAction(e -> {
+                rotate(colorStr, true);
+                history.push(new Pair<String,Boolean>(colorStr, false));
+            });
             grid.add(rotateCW, 2, row);
             // Rotate CounterClockWise
             Button rotateCCW = new Button("\u2B6F");
-            rotateCCW.setOnAction(e -> rotate(colorStr, false));
+            rotateCCW.setOnAction(e -> {
+                rotate(colorStr, false);
+                history.push(new Pair<String,Boolean>(colorStr, true));
+            });
             grid.add(rotateCCW, 3, row);
             row++;
         }
+        //add the undo button
+        grid.add(new Label("undo"), 1, row);
+        Button undo = new Button("\u2B6F");
+        undo.setOnAction(c -> {
+            var move = history.pop();
+            if (move == null) return;
+            rotate(move.getKey(), move.getValue());
+        });
+        grid.add(undo, 3, row);
         layout.setRight(grid);
         return new Scene(layout);
     }
 
     private void rotate(String colorStr, boolean clockwise) {
         System.out.println("Rotate " + (clockwise ? "CW:" : "CCW:") + colorStr);
+        
+
         Color color = Color.web(colorStr);
 
         Timeline timeline = new Timeline();
